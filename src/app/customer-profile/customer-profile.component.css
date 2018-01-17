@@ -1,0 +1,10 @@
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1.5px dashed rgba(136, 129, 129, 0.3);
+}
+
+.less-margin{
+    padding: 0rem 1rem !important;
+}

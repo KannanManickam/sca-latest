@@ -1,0 +1,157 @@
+<div class="row">
+  <div class="col-8">
+    <h2>Dashboard</h2>
+    <h4>Appointments : Upcoming</h4> 
+
+    <ngx-datatable
+      class="bootstrap"    
+      [rows]="upcomingRows"
+      [columnMode]="'force'"
+      [headerHeight]="30"
+      [footerHeight]="30"
+      [limit]="7"
+      [rowHeight]="'auto'"
+      [scrollbarH]="true">
+
+      <ngx-datatable-column prop="$key" name="" [width]="40">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <a 
+            class="nav-link less-margin"
+            [routerLink]="['/appointments/status',value]">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+          </a>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="customerName" name="Customer Name" [width]="120"></ngx-datatable-column>
+      <ngx-datatable-column prop="appointmentDateStr" name="Appointment Date" [width]="120">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value | date:'MMM d,y'}}
+        </ng-template>
+      </ngx-datatable-column> 
+      <ngx-datatable-column prop="appointmentTime" name="Time" [width]="70"></ngx-datatable-column>
+      <ngx-datatable-column prop="status" name="Status" [width]="80" headerClass="is-status" [cellClass]="getCellClass">
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="phone" name="Phone" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="locality" name="Locality" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="visitType" name="Visit Type" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="staff" name="Staff" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="callDateStr" name="Call Date" [width]="130">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value | date:'MMM d,y'}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="address" name="Address"></ngx-datatable-column>
+      <ngx-datatable-column prop="productType" name="Product Type" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="brand" name="Brand" [width]="100"></ngx-datatable-column>           
+      <!-- <ngx-datatable-column prop="totalAmount" name="Total Amount"></ngx-datatable-column>
+      <ngx-datatable-column prop="rcNo" name="Receipt No"></ngx-datatable-column>
+      <ngx-datatable-column prop="cashRcvDate" name="Cash Received Date">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value | date:'MMM d,y'}}
+        </ng-template>
+      </ngx-datatable-column> -->
+
+    </ngx-datatable>
+  </div>
+
+  <div class="col-4">
+    <p>
+        <!-- <input #query (keyup)="filter(query.value)"
+            type="text" class="form-control" placeholder="Search by Customer Number..."> -->
+        <br>
+    </p>
+    <h4>Appointment : Localitywise</h4>
+      <!-- <chart [type]="chartType" [data]="chartData" [options]="chartOptions"></chart> -->
+      <canvas #myChart baseChart
+        height="270vh"
+        [data]="chartData"
+        [labels]="chartLabels"
+        [chartType]="chartType"
+        [colors]="chartColors"
+        [legend]="true"
+        (chartClick)="chartClicked($event)"></canvas>
+
+      <!-- <canvas id="myChart"></canvas>
+      <canvas #donut></canvas> -->
+  </div>
+</div>
+
+<div class="mt-5"></div>
+
+<div class="row">
+  <div class="col-12">
+    <h4>Appointments : Due for Next Service (>90 Days)</h4>
+
+    <ngx-datatable
+      class="bootstrap"    
+      [rows]="completedRows"
+      [columnMode]="'force'"
+      [headerHeight]="30"
+      [footerHeight]="30"
+      [limit]="10"
+      [rowHeight]="'auto'"
+      [scrollbarH]="true"
+      [sorts]="[{prop: 'dueDays', dir: 'desc'}]">
+
+      <!-- <ngx-datatable-column prop="$key" name="" [width]="40">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <a 
+            class="nav-link less-margin"
+            [routerLink]="['/appointments/status',value]">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+          </a>
+        </ng-template>
+      </ngx-datatable-column> -->
+      <ngx-datatable-column prop="$key" name="" [width]="40">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <a 
+            class="nav-link less-margin"
+            title="Re-open Appointment"
+            [routerLink]="['/appointments/status',value, 'copy']">
+            <i class="fa fa-clone" aria-hidden="true"></i>
+          </a>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="dueDays" name="Due Date" [width]="80" 
+                            headerClass="is-status" [cellClass]="getDueCellClass">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <i class="fa fa-bell" aria-hidden="true"></i>
+          {{ value }} days
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="cashRcvDateStr" name="Closed Date" [width]="100">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value | date:'MMM d,y'}}
+          </ng-template>
+        </ngx-datatable-column>
+      <ngx-datatable-column prop="customerName" name="Customer Name" [width]="120"></ngx-datatable-column>
+      <!-- <ngx-datatable-column prop="status" name="Status" [width]="100" headerClass="is-status" [cellClass]="getCellClass">
+      </ngx-datatable-column> -->
+      <ngx-datatable-column prop="phone" name="Phone" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="callDateStr" name="Call Date" [width]="100">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value | date:'MMM d,y'}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="appointmentDateStr" name="Appointment Date" [width]="120">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value | date:'MMM d,y'}}
+        </ng-template>
+      </ngx-datatable-column>     
+      <ngx-datatable-column prop="appointmentTime" name="Time" [width]="70"></ngx-datatable-column> 
+      <ngx-datatable-column prop="address" name="Address"></ngx-datatable-column>
+      <ngx-datatable-column prop="locality" name="Locality" [width]="100"></ngx-datatable-column>      
+      <ngx-datatable-column prop="visitType" name="Visit Type" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="staff" name="Staff" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="productType" name="Product Type" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="brand" name="Brand" [width]="100"></ngx-datatable-column>      
+      <!-- <ngx-datatable-column prop="totalAmount" name="Total Amount" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="rcNo" name="Receipt No" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="cashRcvDate" name="Cash Received Date" [width]="130">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value | date:'MMM d,y'}}
+        </ng-template>
+      </ngx-datatable-column> -->
+    </ngx-datatable>
+  </div>
+</div>

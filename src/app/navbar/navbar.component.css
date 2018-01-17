@@ -1,0 +1,38 @@
+.nav-pills a{
+    color: #9d9d9d;
+}
+.nav-pills a:hover{
+    color: #fff;
+    background-color: #2a6496;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #2a6496;
+}
+
+.nav-pills .active{
+    color: #fff;
+    background-color: #2a6496;
+}
+
+.nav-list-margin-top{
+    margin-top: 10px;
+}
+
+.minh-100 {
+    min-height: 607px !important;
+}
+
+.nav-link{
+    cursor: pointer;
+}
+
+.dropdown-item{
+    cursor: pointer;
+}
+
+.container-fluid {
+    padding-left: 0px !important;
+}

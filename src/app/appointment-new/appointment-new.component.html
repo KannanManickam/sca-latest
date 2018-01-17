@@ -1,0 +1,259 @@
+<!-- <div class="row">
+  <div class="col-6">
+    <h3>Add an Appointment</h3>
+  </div>
+  <div class="col-10 offset-1">
+    <form [formGroup]="newAppForm" class="container was-validated">
+
+      <div class="row">
+        <div class="col-md-6 vertical-line">
+          <div class="mx-auto" style="width: 230px;">
+            <h5>Customer Information</h5>
+          </div>
+
+          <div class="form-group row mt-4">
+            <div class="col-md-6">
+              <mat-form-field>
+                <input matInput formControlName="customerName" type="text" placeholder="Customer name">
+                <mat-error [hidden]="newAppForm.controls.customerName.valid">
+                  Customer Name is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 datePickerDiv">
+              <mat-form-field>
+                <input matInput [matDatepicker]="callDate" 
+                  (focus)="callDate.open()"
+                  [min]="minDate" [max]="maxDate"
+                  placeholder="Call Date"  formControlName="callDate">
+                <mat-datepicker-toggle matSuffix [for]="callDate"></mat-datepicker-toggle>
+                <mat-datepicker touchUi="true" #callDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-6">
+              <mat-form-field>
+                <input matInput formControlName="address" type="text" placeholder="Address">
+                <mat-error [hidden]="newAppForm.controls.address.valid">
+                  Address is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-select placeholder="Select Area" formControlName="locality">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of localities$ | async" [value]="c.locality">
+                    {{c.locality}}
+                  </mat-option>
+                </mat-select>
+                <mat-error [hidden]="newAppForm.controls.locality.valid">
+                  Locality is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-6">
+              <mat-form-field>
+                <input matInput formControlName="phone" type="text" placeholder="Mobile No">
+                <mat-error [hidden]="newAppForm.controls.phone.valid">
+                  Mobile No is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mx-auto" style="width: 240px;">
+            <h5>Appointment Information</h5>
+          </div>
+  
+          <div class="form-group row mt-4">
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-select formControlName="visitType" placeholder="Select Visit Type">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of visitType$" [value]="c">
+                    {{c}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!newAppForm.controls.visitType.valid">
+                  Visit Type is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-select formControlName="staff" placeholder="Select Staff">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of staff$" [value]="c">
+                    {{c}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!newAppForm.controls.staff.valid">
+                  Staff is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <div class="form-group row">
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-select formControlName="productType" placeholder="Select Product Type">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of productType$" [value]="c">
+                    {{c}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!newAppForm.controls.productType.valid">
+                  Product Type is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 mb-3">
+              <mat-form-field>
+                <mat-select formControlName="brand" placeholder="Select Brand">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of brand$" [value]="c">
+                    {{c}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!newAppForm.controls.brand.valid">
+                  Brand is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <div class="form-group row">
+            <div class="col-md-6 datePickerDiv">
+              <mat-form-field>
+                <input matInput [matDatepicker]="appointmentDate" 
+                  (focus)="appointmentDate.open()"
+                  [min]="minDate" [max]="maxDate"
+                  placeholder="Appointment Date"  formControlName="appointmentDate">
+                <mat-datepicker-toggle matSuffix [for]="appointmentDate"></mat-datepicker-toggle>
+                <mat-datepicker touchUi="true" #appointmentDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-select formControlName="status" placeholder="Select Status">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of status$" [value]="c">
+                    {{c}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!newAppForm.controls.status.valid">
+                  Status is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      
+      <div>
+        <div class="mx-auto" style="width: 270px;">
+          <h5>Spares & Service Information</h5>
+        </div>
+
+        <div class="form-group row offset-4 mt-4">
+          <mat-form-field>
+            <input matInput formControlName="svcCharge" type="text" placeholder="Service Charge in INR">
+            <mat-error *ngIf="!newAppForm.controls.svcCharge.valid">
+              Service Charge is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        
+        <div class="form-group row offset-4">
+          <div formArrayName="spares">
+            <div *ngFor="let address of newAppForm.controls.spares.controls; let i=index">
+              <div [formGroupName]="i">
+                <spares [group]="newAppForm.controls.spares.controls[i]"></spares>
+                <button class="btn btn-sm btn-danger" type="button" (click)="removeSpares()"
+                    *ngIf="newAppForm.controls.spares.controls.length > 1"> 
+                  <i class="fa fa-minus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <button class="btn btn-sm btn-success" type="button" (click)="addSpares()"> 
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group row offset-4">
+          <mat-form-field>
+            <input matInput formControlName="sparesTotal" type="text" placeholder="Spares Total in INR">
+            <mat-error *ngIf="!newAppForm.controls.sparesTotal.valid">
+              Spares Total is required.
+            </mat-error> 
+          </mat-form-field>
+        </div>
+        <div class="form-group row offset-4">
+          <mat-form-field>
+            <input matInput formControlName="totalAmount" type="text" placeholder="Total Amount in INR">
+            <mat-error *ngIf="!newAppForm.controls.totalAmount.valid">
+              Total Amount is required.
+            </mat-error> 
+          </mat-form-field>
+        </div>
+      </div>
+
+      <hr>
+
+      <div>
+        <div class="mx-auto" style="width: 270px;">
+          <h5>Payment Information</h5>
+        </div>
+
+        <div class="form-group row offset-4 mt-4">  
+          <mat-form-field>
+            <input matInput formControlName="rcNo" type="text" placeholder="Receipt No">
+            <mat-error *ngIf="!newAppForm.controls.rcNo.valid">
+              Receipt No is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group row offset-4 mt-4 datePickerDiv">
+          <mat-form-field>
+            <input matInput [matDatepicker]="cashRcvDate" 
+              (focus)="cashRcvDate.open()"
+              [min]="minDate" [max]="maxDate"
+              placeholder="Cash Received Date"  formControlName="cashRcvDate">
+            <mat-datepicker-toggle matSuffix [for]="cashRcvDate"></mat-datepicker-toggle>
+            <mat-datepicker touchUi="true" #cashRcvDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <button         
+        (click)="createAppointment()"
+        class="btn btn-primary offset-4 mb-4">Save Appointment</button>
+      <button 
+        (click)="resetAppointmentForm()"
+        class="btn btn-danger mb-4">Reset Form</button>
+
+    </form>
+  </div>
+</div> -->
+
+<h2 mat-dialog-title>Delete Message</h2>
+<mat-dialog-content>Are you sure you want to delete?</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">No</button>
+  <button mat-button [mat-dialog-close]="true">Yes</button>
+</mat-dialog-actions>

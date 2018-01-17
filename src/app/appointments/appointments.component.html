@@ -1,0 +1,166 @@
+<div class="row">
+  <div class="col-3">
+    <h3>All Appointments</h3>
+  </div>
+  
+  <div class="col">
+    <p>
+      <input #query (keyup)="filter(query.value)"
+      type="text" class="form-control" placeholder="Search by Customer Number...">
+    </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-4">
+    <div class="float-left mt-sm-1">
+      Select Area:
+    </div>  
+    <div class="float-left ml-sm-3" style="width:50%">
+      <select (change)="onLocalityChange($event.target.value)" class="form-control">
+        <option value="">All Area</option>
+        <option *ngFor="let c of localities$ | async" [selected]="c.locality == selLoc" [value]="c.locality">
+          {{c.locality}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="col-2">
+    <!-- <button *ngIf="isAdmin" (click)="exportToExcel()" class="btn btn-primary">Download Report</button> -->
+  </div>
+  <div class="col">
+    <div class="float-left mt-sm-1">
+      Select Status:
+    </div>  
+    <div class="btn-group ml-sm-3" data-toggle="buttons">
+      <label class="btn btn-primary btn-pending">
+        <input type="radio" name="options" id="option2" autocomplete="off"
+          (click)="onStatusChange('PENDING')"> Pending
+        <i class="fa fa-star-o" aria-hidden="true"></i>
+      </label>
+      <label class="btn btn-primary btn-ongoing">
+        <input type="radio" name="options" id="option1" autocomplete="off"
+          (click)="onStatusChange('ONGOING')"> OnGoing
+        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+      </label>
+      <label class="btn btn-primary btn-complete">
+        <input type="radio" name="options" id="option3" autocomplete="off"
+          (click)="onStatusChange('COMPLETE')"> Completed
+        <i class="fa fa-star" aria-hidden="true"></i>
+      </label>
+      <label class="btn btn-primary btn-all">
+        <input type="radio" name="options" id="option4" autocomplete="off"
+          (click)="onStatusChange('')"> ALL
+        <i class="fa fa-certificate" aria-hidden="true"></i>
+      </label>
+    </div>
+  </div>
+  
+</div>
+
+
+<div class="row">
+  <div class="col-12">
+    <ngx-datatable
+      #appsTable
+      class="bootstrap"    
+      [rows]="rows"
+      [columnMode]="'force'"
+      [headerHeight]="30"
+      [footerHeight]="30"
+      [limit]="10"
+      [rowHeight]="'auto'"
+      [scrollbarH]="true">
+
+      <!-- <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <div class="appRowDetails">
+            <div *ngFor="let spare of row.spares; let i=index">
+              <div><strong>Spare Name: {{spare.spareName}}, Spare Amount: {{spare.spareAmount}}</strong></div>
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-row-detail>
+
+      <ngx-datatable-column
+        [width]="50"
+        [resizeable]="false"
+        [sortable]="false"
+        [draggable]="false"
+        [canAutoResize]="false">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <a
+            href="javascript:void(0)"
+            [class.datatable-icon-right]="!expanded"
+            [class.datatable-icon-down]="expanded"
+            title="Expand/Collapse Row"
+            (click)="toggleExpandRow(row)">
+          </a>
+        </ng-template>
+      </ngx-datatable-column> -->
+      <ngx-datatable-column prop="$key" name="" [width]="40">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <a 
+            class="nav-link less-margin"
+            title="View/Edit Appointment"
+            [routerLink]="['/appointments/status',value]">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          </a>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="$key" name="" [width]="40">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <a 
+            class="nav-link less-margin"
+            title="Re-open Appointment"
+            [routerLink]="['/appointments/status',value, 'copy']">
+            <i class="fa fa-clone" aria-hidden="true"></i>
+          </a>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="customerName" name="Customer Name"></ngx-datatable-column>
+      <ngx-datatable-column prop="status" name="Status" [width]="100" headerClass="is-status" [cellClass]="getCellClass">
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="phone" name="Phone" [width]="100"></ngx-datatable-column>
+      
+      <ngx-datatable-column prop="locality" name="Locality" [width]="100"></ngx-datatable-column>      
+      
+      <ngx-datatable-column prop="visitType" name="Visit Type" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="staff" name="Staff" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="productType" name="Product Type" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="brand" name="Brand" [width]="80"></ngx-datatable-column>
+      <ngx-datatable-column prop="spares" name="Spares">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div *ngIf="row.spares">
+            <div *ngFor="let spare of row.spares; let i=index">
+              <span *ngIf="spare.spareName">
+                  {{spare.spareName}} : ₹ {{spare.spareAmount}}
+              </span>
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="appointmentDateStr" name="Appointment Date" [width]="120">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value | date:'MMM d,y'}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="appointmentTime" name="Time" [width]="80"></ngx-datatable-column>
+      <ngx-datatable-column prop="sparesTotal" name="Spares Total" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="svcCharge" name="Service Charge" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="totalAmount" name="Total Amount" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="callDateStr" name="Call Date" [width]="100">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value | date:'MMM d,y'}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="address" name="Address"></ngx-datatable-column>
+      <ngx-datatable-column prop="rcNo" name="Receipt No" [width]="100"></ngx-datatable-column>
+      <ngx-datatable-column prop="cashRcvDateStr" name="Cash Received Date" [width]="120">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ value | date:'MMM d,y'}}
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

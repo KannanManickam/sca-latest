@@ -1,0 +1,69 @@
+<mat-accordion>
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <strong>Appointments Report</strong>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-form-field class="mt-4 mr-4">
+      <mat-select placeholder="Select Locality" [(value)]="selLocality">
+        <mat-option>--</mat-option>
+        <mat-option *ngFor="let c of localities$ | async" [value]="c.locality">
+          {{c.locality}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="mr-4">
+      <mat-select placeholder="Select Status" [(value)]="selStatus">
+        <mat-option>--</mat-option>
+        <mat-option *ngFor="let c of status$" [value]="c">
+          {{c}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="mr-4">
+      <input matInput placeholder="From Date" [matDatepicker]="fromDate" 
+          (focus)="fromDate.open()">
+      <mat-datepicker-toggle matSuffix [for]="fromDate">
+      </mat-datepicker-toggle>
+      <mat-datepicker touchUi="true" #fromDate></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="To Date" [matDatepicker]="toDate" (focus)="toDate.open()">
+      <mat-datepicker-toggle matSuffix [for]="toDate">
+      </mat-datepicker-toggle>
+      <mat-datepicker touchUi="true" #toDate></mat-datepicker>
+    </mat-form-field>
+
+    <mat-action-row>
+      <button mat-raised-button color="primary" (click)="downloadAppointments()">Download Report</button>
+    </mat-action-row>
+
+  </mat-expansion-panel>
+
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+          <strong>Inventory Report</strong>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    
+    <mat-form-field class="mt-4 mr-4">
+      <mat-select placeholder="Select Inventory Type" [(value)]="selInvType">
+        <mat-option>--</mat-option>
+        <mat-option *ngFor="let c of invType$" [value]="c">
+          {{c}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-action-row>
+      <button mat-raised-button color="primary" (click)="downloadInventoryRpt()">Download Report</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>

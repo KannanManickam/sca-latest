@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="text-left">
+          <h2>Customer Profile</h2>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card height">
+              <div class="card-header text-center">Customer Info</div>
+              <div class="card-body">
+                  <strong>Customer Name:</strong> {{customers.customerName}} <br>
+                  <strong>Contact Number:</strong> {{customers.phone}}<br>
+                  <strong>Address:</strong> {{customers.address}}<br>
+                  <strong>Locality:</strong> {{customers.locality}}<br>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <button 
+            mat-raised-button 
+            color="primary"
+            [routerLink]="['/appointments/status',customerId, 'customer']">
+            Create Appointment
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <hr>
+  
+  <div class="row">
+    <div class="col-12">
+      <h4>Customer Appointments</h4> 
+  
+      <ngx-datatable
+        class="bootstrap"    
+        [rows]="rows"
+        [columnMode]="'force'"
+        [headerHeight]="30"
+        [footerHeight]="30"
+        [limit]="10"
+        [rowHeight]="'auto'"
+        [scrollbarH]="true">
+  
+        <ngx-datatable-column prop="$key" name="" [width]="50">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <a 
+              class="nav-link less-margin"
+              [routerLink]="['/appointments/status',value]">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+            </a>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="status" name="Status" [width]="100" headerClass="is-status" [cellClass]="getCellClass">
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="phone" name="Phone" [width]="100"></ngx-datatable-column>
+        <ngx-datatable-column prop="appointmentDateStr" name="Appointment Date" [width]="120">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value | date:'MMM d,y'}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="appointmentTime" name="Time" [width]="80"></ngx-datatable-column>
+
+        <ngx-datatable-column prop="callDateStr" name="Call Date">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value | date:'MMM d,y'}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="visitType" name="Visit Type" [width]="100"></ngx-datatable-column>
+        <ngx-datatable-column prop="staff" name="Staff" [width]="100"></ngx-datatable-column>
+        <ngx-datatable-column prop="productType" name="Product Type" [width]="100"></ngx-datatable-column>
+        <ngx-datatable-column prop="brand" name="Brand" [width]="80"></ngx-datatable-column>   
+        <ngx-datatable-column prop="spares" name="Spares">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div *ngIf="row.spares">
+              <div *ngFor="let spare of row.spares; let i=index">
+                <span *ngIf="spare.spareName">
+                    {{spare.spareName}} : ₹ {{spare.spareAmount}}
+                </span>
+              </div>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="sparesTotal" name="Spares Total" [width]="100"></ngx-datatable-column>
+        <ngx-datatable-column prop="svcCharge" name="Service Charge" [width]="100"></ngx-datatable-column>
+        <ngx-datatable-column prop="totalAmount" name="Total Amount" [width]="100"></ngx-datatable-column>
+        <ngx-datatable-column prop="rcNo" name="Receipt No" [width]="100"></ngx-datatable-column>
+        <ngx-datatable-column prop="cashRcvDateStr" name="Cash Received Date" [width]="130">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value | date:'MMM d,y'}}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>

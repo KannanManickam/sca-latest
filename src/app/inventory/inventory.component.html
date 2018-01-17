@@ -1,0 +1,263 @@
+<!-- <div class="col-6">
+  <div class="row">
+    <div class="col-12">
+      <h4>Inventory : Product-wise</h4>
+    </div>
+  </div>
+  <div class="row mt-sm-1">
+    <div class="col-12">
+      <canvas #invChart baseChart
+        [chartType]="invChartType"
+        [colors]="chartColors"
+        [legend]="true"></canvas>
+    </div>
+  </div>
+</div> -->
+<mat-accordion>
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <strong>Inventory Management</strong>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="row managementDiv">
+      <div class="col-8">
+        <div class="row">
+          <div class="col-6">
+            <h4>Items in Inventory</h4>
+          </div>
+          <div class="col-6">
+            <input #spareQuery (keyup)="filter(spareQuery.value)"
+              type="text" class="form-control" placeholder="Search by Spare Name...">
+          </div>
+        </div>
+        <div class="row mt-sm-1">
+          <div class="col-12">
+            <ngx-datatable
+              class="bootstrap"    
+              [rows]="rows"
+              [columnMode]="'force'"
+              [headerHeight]="30"
+              [footerHeight]="30"
+              [limit]="7"
+              [rowHeight]="'auto'"
+              [scrollbarH]="false">
+    
+              <ngx-datatable-column prop="$key" name="" [width]="40">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <a 
+                    class="nav-link edit"
+                    (click)="editInventory(value)">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  </a>
+                </ng-template>
+              </ngx-datatable-column>  
+              <ngx-datatable-column prop="$key" name="" [width]="40">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <a 
+                    class="nav-link delete"
+                    (click)="deleteInventory(value)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </a>
+                </ng-template>
+              </ngx-datatable-column> 
+              <ngx-datatable-column prop="brandName" name="Brand Name" [width]="120"></ngx-datatable-column>
+              <ngx-datatable-column prop="spareCode" name="Spare Code" [width]="100"></ngx-datatable-column>
+              <ngx-datatable-column prop="spareName" name="Spare Name" [width]="120"></ngx-datatable-column>
+              <ngx-datatable-column prop="spareAmount" name="Rate" [width]="70"></ngx-datatable-column>
+              <ngx-datatable-column prop="quantity" name="Quantity" [width]="70"></ngx-datatable-column>          
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mat-action-row>
+      <button mat-raised-button color="primary" (click)="addInventory()">Add Inventory</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <strong>Staff Management</strong>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="row managementDiv">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-6">
+            <h4>Staff List</h4>
+          </div>
+          <div class="col-6">
+            <input #staffQuery (keyup)="staffFilter(staffQuery.value)"
+              type="text" class="form-control" placeholder="Search by Staff Name...">
+          </div>
+        </div>
+        <div class="row mt-sm-1">
+          <div class="col-12">
+            <ngx-datatable
+              class="bootstrap"    
+              [rows]="staffRows"
+              [columnMode]="'force'"
+              [headerHeight]="30"
+              [footerHeight]="30"
+              [limit]="7"
+              [rowHeight]="'auto'"
+              [scrollbarH]="false">
+    
+              <ngx-datatable-column prop="$key" name="" [width]="40">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <a 
+                    class="nav-link edit"
+                    (click)="editStaff(value)">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  </a>
+                </ng-template>
+              </ngx-datatable-column>  
+              <ngx-datatable-column prop="$key" name="" [width]="40">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <a 
+                    class="nav-link delete"
+                    (click)="deleteStaff(value)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </a>
+                </ng-template>
+              </ngx-datatable-column> 
+              <ngx-datatable-column prop="name" name="Staff Name"></ngx-datatable-column>
+              <ngx-datatable-column prop="phone" name="Staff Code"></ngx-datatable-column>      
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mat-action-row>
+      <button mat-raised-button color="primary" (click)="addStaff()">Add Staff</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <strong>Brand Management</strong>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="row managementDiv">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-6">
+            <h4>Items in Brand</h4>
+          </div>
+          <div class="col-6">
+            <input #brandQuery (keyup)="brandFilter(brandQuery.value)"
+              type="text" class="form-control" placeholder="Search by Brand Name...">
+          </div>
+        </div>
+        <div class="row mt-sm-1">
+          <div class="col-12">
+            <ngx-datatable
+              class="bootstrap"    
+              [rows]="brandRows"
+              [columnMode]="'force'"
+              [headerHeight]="30"
+              [footerHeight]="30"
+              [limit]="7"
+              [rowHeight]="'auto'"
+              [scrollbarH]="false">
+    
+              <ngx-datatable-column prop="$key" name="" [width]="40">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <a 
+                    class="nav-link edit"
+                    (click)="editBrand(value)">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  </a>
+                </ng-template>
+              </ngx-datatable-column>  
+              <ngx-datatable-column prop="$key" name="" [width]="40">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <a 
+                    class="nav-link delete"
+                    (click)="deleteBrand(value)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </a>
+                </ng-template>
+              </ngx-datatable-column> 
+              <ngx-datatable-column prop="brandName" name="Brand Name"></ngx-datatable-column>
+              <ngx-datatable-column prop="brandCode" name="Brand Code"></ngx-datatable-column>      
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mat-action-row>
+      <button mat-raised-button color="primary" (click)="addBrand()">Add Brand</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <strong>Product Management</strong>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="row managementDiv">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-6">
+            <h4>Items in Product</h4>
+          </div>
+          <div class="col-6">
+            <input #productQuery (keyup)="productFilter(productQuery.value)"
+              type="text" class="form-control" placeholder="Search by Product Name...">
+          </div>
+        </div>
+        <div class="row mt-sm-1">
+          <div class="col-12">
+            <ngx-datatable
+              class="bootstrap"    
+              [rows]="productRows"
+              [columnMode]="'force'"
+              [headerHeight]="30"
+              [footerHeight]="30"
+              [limit]="7"
+              [rowHeight]="'auto'"
+              [scrollbarH]="false">
+    
+              <ngx-datatable-column prop="$key" name="" [width]="40">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <a 
+                    class="nav-link edit"
+                    (click)="editProduct(value)">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  </a>
+                </ng-template>
+              </ngx-datatable-column>  
+              <ngx-datatable-column prop="$key" name="" [width]="40">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <a 
+                    class="nav-link delete"
+                    (click)="deleteProduct(value)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </a>
+                </ng-template>
+              </ngx-datatable-column> 
+              <ngx-datatable-column prop="productName" name="Product Name"></ngx-datatable-column>
+              <ngx-datatable-column prop="productCode" name="Product Code"></ngx-datatable-column>      
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mat-action-row>
+      <button mat-raised-button color="primary" (click)="addProduct()">Add Product</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>

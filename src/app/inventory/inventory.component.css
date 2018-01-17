@@ -1,0 +1,22 @@
+.edit{
+    padding: 0rem 1rem !important;
+    color: orange !important;
+}
+
+.delete{
+    padding: 0rem 1rem !important;
+    color: red !important;
+}
+
+.mat-expansion-panel{
+    margin: 10px !important;
+}
+
+.mat-expansion-panel-header{
+    background-color: lightgrey !important
+}
+
+.managementDiv{
+    max-width: 98%;
+    margin-top: 1.5rem;
+}

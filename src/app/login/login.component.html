@@ -1,0 +1,21 @@
+<form class="form-signin" #loginForm="ngForm">
+  <h4 class="form-signin-heading">Admin Login</h4>
+  <div class="form-group">
+    <!-- <label for="email">Email address</label> -->
+    <input #email="ngModel" name="email" [(ngModel)]="user.email" 
+          placeholder="Email address" class="input pass form-control" required/>
+  </div>
+  <div class="form-group">
+    <!-- <label for="password">Password</label> -->
+    <input #password="ngModel" name="password" type="password" [(ngModel)]="user.password" 
+            placeholder="Password" class="input pass form-control" required/>
+  </div>
+  <button 
+    [disabled]="!loginForm.valid"
+    (click)="login()"
+    class="btn btn-primary btn-block">Login</button>
+
+  <p ngbDropdown *ngIf="auth.user$ | async as firebaseUser">
+    {{firebaseUser.email}}
+  </p>
+</form>

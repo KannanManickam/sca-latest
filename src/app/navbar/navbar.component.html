@@ -1,0 +1,68 @@
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" routerLink="/">SCA Customer Sales Management</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/">
+            <!-- <i class="fa fa-tachometer" aria-hidden="true"></i> -->
+            <i class="fa fa-pie-chart" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li ngbDropdown class="nav-item dropdown" placement="bottom-right">
+          <a ngbDropdownToggle class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" 
+              aria-haspopup="true" aria-expanded="false">
+            Quick Links
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
+            <a class="dropdown-item" routerLink="/appointments/new">Add an Appointment</a>
+            <a class="dropdown-item" routerLink="/appointments">All Appointments</a>
+            <a class="dropdown-item" routerLink="/customers">All Customers</a>
+            <ng-container *ngIf = "isAdmin">
+              <a class="dropdown-item" routerLink="/inventory">Inventory Management</a>            
+              <a class="dropdown-item" routerLink="/reports">Reports</a>            
+            </ng-container>
+            <a class="dropdown-item" (click)="logout()">Log Out</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<div class="container-fluid">
+  <div class="row minh-100">
+    <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-dark sidebar">
+      <ul class="nav nav-pills flex-column nav-list-margin-top">
+        <li class="nav-item">
+          <a class="nav-link active"  routerLink="/">Dashboard <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/appointments/new">Add an Appointment</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/appointments">All Appointments</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/customers">All Customers</a>
+        </li>
+        <ng-container *ngIf = "isAdmin">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/inventory">Inventory Management</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/reports">Reports</a>
+          </li>
+        </ng-container>
+      </ul>
+    </nav>
+    <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+.card-header {
+    background-color: #343a40 !important;
+    color: #ededed;
+}
+
+.vertical-line {
+    border-right: 1.5px dashed rgba(136, 129, 129, 0.3);
+}
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1.5px dashed rgba(136, 129, 129, 0.3);
+}
+
+.minus-btn{
+    margin-bottom: 40px;
+}
+
+.customLabelStyle {
+    font-weight: 500 !important;
+    padding-top: 1.25em !important;
+    min-width: 150px !important;
+}
+
+.form-group {
+    margin-bottom: 0rem !important;
+}
+
+/* .mat-form-field-infix{
+    border: 0.05rem solid !important;
+}
+.mat-form-field-flex{
+    border: 0.05rem solid !important;
+} */

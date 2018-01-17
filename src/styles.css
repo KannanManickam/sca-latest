@@ -1,0 +1,70 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@import '~@swimlane/ngx-datatable/release/themes/bootstrap.css';
+@import '~@swimlane/ngx-datatable/release/themes/material.css';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
+body{
+    padding-top: 55px;
+}
+
+.is-HIGH{
+    color: red;
+    font-weight: 500;
+}
+.is-NORMAL{
+    color: orange;
+    font-weight: 500;
+}
+.is-LOW{
+    color: green;
+    font-weight: 500;
+}
+
+
+.is-COMPLETE{
+    color: green;
+    font-weight: 500;
+}
+.is-ONGOING{
+    color: blue;
+    font-weight: 500;
+}
+.is-PENDING{
+    color: orange;
+    font-weight: 500;
+}
+
+.btn-ongoing{
+    background-color: blue;
+}
+
+.btn-pending{
+    background-color: orange;
+}
+
+.btn-complete{
+    background-color: green;
+}
+
+.btn-all{
+    background-color: grey;
+}
+
+.datePickerDiv input{
+    border : 0px !important;
+    padding: 0 !important;
+    max-width: 150px !important;
+}
+/* 
+.panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+  } */

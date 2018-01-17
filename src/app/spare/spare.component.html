@@ -1,0 +1,26 @@
+<div [formGroup]="spareForm" class="float-left">
+  <mat-form-field>
+    <mat-select formControlName="spareName"
+                            (change)="onSparesSelect($event.value)">
+      <mat-option>--</mat-option>
+      <mat-option *ngFor="let c of spareName$" [value]="c">
+        {{c}}
+      </mat-option>
+    </mat-select>  
+    <mat-error [hidden]="spareForm.controls.spareName.valid">
+      Spares is required.
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="ml-2">
+    <input matInput formControlName="spareAmount" type="text" placeholder="in Rupees">
+    <mat-error [hidden]="spareForm.controls.spareAmount.valid">
+      Spare Amount is required.
+    </mat-error> 
+  </mat-form-field>
+</div>
+
+<!-- <div class="margin-20">
+  <div>spareForm details:-</div>
+  <pre>Is spareForm valid?: <br>{{spareForm.valid | json}}</pre>
+  <pre>form value: <br>{{spareForm.value | json}}</pre>
+</div> -->

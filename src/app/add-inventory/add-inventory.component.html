@@ -1,0 +1,79 @@
+<div class="row">
+  <div *ngIf="action === 'Inventory'" class="col-12">
+    <h1 mat-dialog-title>Add/Update Inventory</h1>
+    <div mat-dialog-content>
+      <mat-form-field class="inv-full-width">
+        <mat-select [(ngModel)]="data.brandName">
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let c of brand$ | async" [value]="c.brandName">
+            {{c.brandName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="inv-full-width">
+        <input matInput [(ngModel)]="data.spareCode" placeholder="Spare Code">
+      </mat-form-field>
+      <mat-form-field class="inv-full-width">
+        <input matInput [(ngModel)]="data.spareName" placeholder="Spare Name">
+      </mat-form-field>
+      <mat-form-field class="inv-full-width">
+        <input matInput [(ngModel)]="data.spareAmount" placeholder="Rate">
+      </mat-form-field>
+      <mat-form-field class="inv-full-width">
+        <input matInput [(ngModel)]="data.quantity" placeholder="Quantity">
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions class="float-right">
+      <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
+      <button mat-raised-button color="primary" [mat-dialog-close]="data">Save</button>
+    </div>
+  </div>
+
+  <div *ngIf="action === 'Brand'" class="col-12">
+    <h1 mat-dialog-title>Add/Update Brand</h1>
+    <div mat-dialog-content>
+      <mat-form-field class="inv-full-width">
+        <input matInput [(ngModel)]="data.brandName" placeholder="Brand Name">
+      </mat-form-field>
+      <mat-form-field class="inv-full-width">
+        <input matInput [(ngModel)]="data.brandCode" placeholder="Brand Code">
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions class="float-right">
+      <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
+      <button mat-raised-button color="primary" [mat-dialog-close]="data">Save</button>
+    </div>
+  </div>
+
+  <div *ngIf="action === 'Product'" class="col-12">
+    <h1 mat-dialog-title>Add/Update Product</h1>
+    <div mat-dialog-content>
+      <mat-form-field class="inv-full-width">
+        <input matInput [(ngModel)]="data.productName" placeholder="Product Name">
+      </mat-form-field>
+      <mat-form-field class="inv-full-width">
+        <input matInput [(ngModel)]="data.productCode" placeholder="Product Code">
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions class="float-right">
+      <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
+      <button mat-raised-button color="primary" [mat-dialog-close]="data">Save</button>
+    </div>
+  </div>
+  
+  <div *ngIf="action === 'Staff'" class="col-12">
+    <h1 mat-dialog-title>Add/Update Staff</h1>
+    <div mat-dialog-content>
+      <mat-form-field class="inv-full-width">
+        <input matInput [(ngModel)]="data.name" placeholder="Staff Name">
+      </mat-form-field>
+      <mat-form-field class="inv-full-width">
+        <input matInput [(ngModel)]="data.phone" placeholder="Phome">
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions class="float-right">
+      <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
+      <button mat-raised-button color="primary" [mat-dialog-close]="data">Save</button>
+    </div>
+  </div>
+</div>

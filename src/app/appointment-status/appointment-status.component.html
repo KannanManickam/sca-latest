@@ -1,0 +1,316 @@
+<div class="row">
+  <div class="col-6">
+    <h3 *ngIf="isEditApp">Appointment Status #{{appStatusForm.controls.status.value}}</h3>
+    <h3 *ngIf="!isEditApp">Add an Appointment</h3>
+  </div>
+  <div class="col-10 offset-1">
+    <form [formGroup]="appStatusForm" class="container was-validated">
+
+      <!-- Customer Information Section -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="mx-auto" style="width: 230px;">
+            <h5>Customer Information</h5>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-6">
+              <label for="customerName" class="customLabelStyle">Customer Name*</label>
+              <mat-form-field>
+                <input matInput formControlName="customerName" type="text">
+                <mat-error [hidden]="appStatusForm.controls.customerName.valid">
+                  Customer Name is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 datePickerDiv">
+              <label for="callDate" class="customLabelStyle">Call Date*</label>
+              <mat-form-field>
+                <input matInput [matDatepicker]="callDate" 
+                  (focus)="callDate.open()"
+                  [min]="minDate" [max]="maxDate"
+                  formControlName="callDate">
+                <mat-datepicker-toggle matSuffix [for]="callDate" [disabled]="isEditApp">
+                </mat-datepicker-toggle>
+                <mat-datepicker touchUi="true" #callDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-6">
+              <label for="address" class="customLabelStyle">Address*</label>
+              <mat-form-field>
+                <input matInput formControlName="address" type="text">
+                <mat-error [hidden]="appStatusForm.controls.address.valid">
+                  Address is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <label for="locality" class="customLabelStyle">Locality*</label>
+              <mat-form-field>
+                <mat-select formControlName="locality">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of localities$ | async" [value]="c.locality">
+                    {{c.locality}}
+                  </mat-option>
+                </mat-select>
+                <mat-error [hidden]="appStatusForm.controls.locality.valid">
+                  Locality is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-6">
+              <label for="phone" class="customLabelStyle">Mobile No*</label>
+              <mat-form-field hintLabel="Max 10 characters">
+                <input matInput formControlName="phone" maxlength="10">
+                <mat-error [hidden]="appStatusForm.controls.phone.valid">
+                  Mobile No is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <label for="altPhone" class="customLabelStyle">Alternate No</label>
+              <mat-form-field>
+                <input matInput formControlName="altPhone" type="text">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Appointment Information Section -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="mx-auto" style="width: 240px;">
+            <h5>Appointment Information</h5>
+          </div>
+  
+          <div class="form-group row">
+            <div class="col-md-6">
+              <label for="visitType" class="customLabelStyle">Visit Type*</label>
+              <mat-form-field>
+                <mat-select formControlName="visitType">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of visitType$" [value]="c">
+                    {{c}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!appStatusForm.controls.visitType.valid">
+                  Visit Type is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <label for="staff" class="customLabelStyle">Staff*</label>
+              <mat-form-field>
+                <mat-select formControlName="staff">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of staff$ | async" [value]="c.name">
+                    {{c.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!appStatusForm.controls.staff.valid">
+                  Staff is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <div class="form-group row">
+            <div class="col-md-6">
+              <label for="productType" class="customLabelStyle">Product Type*</label>
+              <mat-form-field>
+                <mat-select formControlName="productType">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of productType$ | async" [value]="c.productName">
+                    {{c.productName}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!appStatusForm.controls.productType.valid">
+                  Product Type is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="brand" class="customLabelStyle">Brand*</label>
+              <mat-form-field>
+                <mat-select formControlName="brand">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of brand$ | async" [value]="c.brandName">
+                    {{c.brandName}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!appStatusForm.controls.brand.valid">
+                  Brand is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <div class="form-group row">
+            <div class="col-md-6 datePickerDiv">
+              <label for="appointmentDate" class="customLabelStyle">Appointment Date*</label>
+              <mat-form-field>
+                <input matInput [matDatepicker]="appointmentDate" 
+                  (focus)="appointmentDate.open()"
+                  [min]="minDate" [max]="maxDate"
+                  formControlName="appointmentDate">
+                <mat-datepicker-toggle matSuffix [for]="appointmentDate"></mat-datepicker-toggle>
+                <mat-datepicker touchUi="true" #appointmentDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <label for="status" class="customLabelStyle">Status*</label>
+              <mat-form-field>
+                <mat-select formControlName="status">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of status$" [value]="c">
+                    {{c}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!appStatusForm.controls.status.valid">
+                  Status is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-6">
+              <label for="appointmentTime" class="customLabelStyle">Appointment Time*</label>
+              <mat-form-field>
+                <mat-select formControlName="appointmentTime">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of appointmentTime$" [value]="c">
+                    {{c}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!appStatusForm.controls.appointmentTime.valid">
+                  Appointment Time is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      
+      <!-- Spares & Service Information Section -->
+      <div>
+        <div class="mx-auto" style="width: 270px;">
+          <h5>Spares & Service Information</h5>
+        </div>
+
+        <div class="form-group row offset-3">
+          <label for="svcCharge" class="customLabelStyle">Service Charge</label>
+          <mat-form-field>
+            <input matInput formControlName="svcCharge" type="text" placeholder="in Rupees">
+            <mat-error *ngIf="!appStatusForm.controls.svcCharge.valid">
+              Service Charge is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        
+        <div class="form-group row offset-3">
+          <label for="spares" class="customLabelStyle">Spares</label>
+          <div formArrayName="spares">
+            <div *ngFor="let address of appStatusForm.controls.spares.controls; let i=index">
+              <div [formGroupName]="i">
+                <spares [group]="appStatusForm.controls.spares.controls[i]"></spares>
+                <button class="btn btn-sm btn-danger minus-btn" type="button" (click)="removeSpares(i)"
+                    *ngIf="appStatusForm.controls.spares.controls.length > 1"> 
+                  <i class="fa fa-minus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <button class="btn btn-sm btn-success" type="button" (click)="addSpares()"> 
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group row offset-3">
+          <label for="sparesTotal" class="customLabelStyle">Spares Total</label>
+          <mat-form-field>
+            <input matInput formControlName="sparesTotal" type="text" 
+              readonly placeholder="in Rupees">
+          </mat-form-field>
+        </div>
+        <div class="form-group row offset-3">
+          <label for="totalAmount" class="customLabelStyle">Total Amount</label>
+          <mat-form-field>
+            <input matInput formControlName="totalAmount" type="text" 
+              readonly placeholder="in Rupees">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Payment Information Section -->
+      <div>
+        <div class="mx-auto" style="width: 270px;">
+          <h5>Payment Information</h5>
+        </div>
+
+        <div class="form-group row offset-3">  
+          <label for="rcNo" class="customLabelStyle">Receipt No</label>
+          <mat-form-field>
+            <input matInput formControlName="rcNo" type="text">
+          </mat-form-field>
+        </div>
+        <div class="form-group row offset-3 datePickerDiv">
+          <label for="cashRcvDate" class="customLabelStyle">Cash Received Date</label>
+          <mat-form-field>
+            <input matInput [matDatepicker]="cashRcvDate" 
+              (focus)="cashRcvDate.open()"
+              [min]="minDate" [max]="maxDate"
+              formControlName="cashRcvDate">
+            <mat-datepicker-toggle matSuffix [for]="cashRcvDate"></mat-datepicker-toggle>
+            <mat-datepicker touchUi="true" #cashRcvDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <button
+        [disabled]="!appStatusForm.valid"
+        *ngIf="isEditApp"
+        (click)="updateAppointment()"
+        class="btn btn-primary offset-3">Update Appointment</button>
+      <button
+        [disabled]="!appStatusForm.valid"
+        *ngIf="isEditApp"
+        (click)="closeAppointment()"
+        class="btn btn-warning">Close Appointment</button>
+      <button 
+        *ngIf="isEditApp"
+        (click)="deleteAppointment()"
+        class="btn btn-danger">Delete Appointment</button>
+      <button
+        [disabled]="!appStatusForm.valid"
+        *ngIf="!isEditApp"
+        (click)="createAppointment()"
+        class="btn btn-primary offset-5">Create Appointment</button>
+      <br>
+      <h6 class="offset-5 font-italic mb-4">Fields marked with an * are required</h6>
+      <!-- <button 
+        *ngIf="!isEditApp"
+        (click)="resetAppointmentForm()"
+        class="btn btn-danger mb-4">Reset Form</button> 
+      [class.offset-5]="appStatusForm.controls.status.value === 'COMPLETE'"-->
+
+    </form>
+  </div>
+</div>
